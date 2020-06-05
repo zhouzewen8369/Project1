@@ -1,4 +1,5 @@
 #include <stdio.h>
+//йтйтв╒йм
 #if 0
 
 int main() {
