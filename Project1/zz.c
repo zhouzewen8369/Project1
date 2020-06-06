@@ -111,7 +111,7 @@ int main() {
 }
 #endif 
 
-#if 1
+#if 0
 #include <stdio.h>
 int main() {
 	float scores[100], score=0, sum = 0;
@@ -135,9 +135,18 @@ int main() {
 }
 #endif
 
-#if 0
+#if 1
+//定义函数，单个参数，define function 
+//返回值，函数名，形参
+void f(int n) {
+	for (int i = 0; i < n; i++) {
+		printf("%d zhouzw\n",i);
+		//return 0  //这样会直接结束main函数
+	}
+}
 int main() {
-
-
+	//调用函数，实参，参数传递
+	f(3);
+	return 1;
 }
 #endif
