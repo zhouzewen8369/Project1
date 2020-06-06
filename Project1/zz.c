@@ -68,7 +68,7 @@ int main() {
 }
 #endif
 
-#if 1
+#if 0
 //array
 #include <stdio.h>
 int main() {
@@ -77,7 +77,7 @@ int main() {
 	int a[5];
 	a[1] = 4;
 	for (int i = 0; i < 5; i++) {
-		a[i] = i;
+		a[i] = i+5;
 		printf("%d\t", a[i]);
 	}
 	printf("\n");
@@ -92,11 +92,14 @@ int main() {
 	//array[]={0,1,2,3,4}
 	int a2[] = { 0,1,2,3,4 };
 	int len_a2 = sizeof(a2);
-	for (int i = 0; i < sizeof(a2); i++) {
-		printf("%d\t", a2[i]);
+	printf("sizeof(a2):%d\n", len_a2);
+	//数组定义时默认分配20个
+	//for (int i = 0; i < sizeof(a2); i++) {
 		//索引“19”超出了“0”至“4”的有效范围(对于可能在堆栈中分配的缓冲区“a2”)。
+	for (int i = 0; i < 5; i++) {
+		printf("%d\t", a2[i]);
 	}
-	printf("\nsizeof(a2):%d\n", len_a2);
+	printf("\n");
 
 	//array[n]= for定义
 	int a3[5];
@@ -107,3 +110,34 @@ int main() {
 	printf("\n");
 }
 #endif 
+
+#if 1
+#include <stdio.h>
+int main() {
+	float scores[100], score=0, sum = 0;
+	int n = 0;
+	while (1){
+		printf("Add a score please: ");
+		scanf("%f", &score);
+		if (score < 0) {
+			printf("%d students' scores are as below:\n",n);
+			break;
+		}
+		scores[n] = score;
+		n++;
+		sum += score;
+		printf("Received %d students' scores.\n", n);
+	}
+	for (int i = 0; i < n; i++) {
+		printf("%5.2f\n", scores[i]);
+	}
+	printf("Average scores:%5.2f\n", sum / n);
+}
+#endif
+
+#if 0
+int main() {
+
+
+}
+#endif
