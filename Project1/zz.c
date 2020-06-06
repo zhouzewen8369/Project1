@@ -1,5 +1,6 @@
 #include <stdio.h>
-//试试注释
+
+//main，printf，return
 #if 0
 int main() {
 	printf("Hello C and VS"); 
@@ -7,6 +8,8 @@ int main() {
 }
 #endif
 
+//循环 for也可以
+//do-while循环，1到100求和
 #if 0
 int main() {
 	int i = 1, sum = 0;
@@ -19,7 +22,7 @@ int main() {
 	return -1;
 }
 #endif
-
+//while循环，1到100求和
 #if 0
 int main() {
 	int i = 1, sum = 0;
@@ -33,6 +36,7 @@ int main() {
 }
 #endif
 
+//switch-case，计算器，不同运算符
 #if 0
 int main() {
 	int a, b;
@@ -52,6 +56,7 @@ int main() {
 }
 #endif
 
+//if，判断成绩是否及格
 #if 0
 int main() {
 	float a; 
@@ -68,6 +73,7 @@ int main() {
 }
 #endif
 
+//array，数组
 #if 0
 //array
 #include <stdio.h>
@@ -110,7 +116,7 @@ int main() {
 	printf("\n");
 }
 #endif 
-
+//输入score并汇总为数组scores
 #if 0
 #include <stdio.h>
 int main() {
@@ -135,10 +141,10 @@ int main() {
 }
 #endif
 
-#if 0
 //定义函数，单个参数，define function 
+#if 0
 //返回值，函数名，形参
-void f(int n) {
+void f(int n) {  //void 空的，无效的
 	for (int i = 0; i < n; i++) {
 		printf("%d zhouzw\n",i);
 		//return 0  //这样会直接从main函数跳出
@@ -150,8 +156,9 @@ int main() {
 	return 1;
 }
 #endif
+//定义函数add两个数相加
+#if 0
 
-#if 1
 #include <stdio.h>
 int add(int a, int b) {
 	printf("%d", a + b);
@@ -162,3 +169,33 @@ int main() {
 	add(x, y);
 }
 #endif
+//判断是否为质数，for、if、while
+#if 1 
+void zhishu(int x) {
+	int flag = 0;
+	for (int i = 2; i < x; i++) { //i：2到x-1
+		//如果x能被1和其本身以外的数整除，则x不是质数
+		if (x % i == 0) {
+			printf("%d\t", i);
+			flag = 1;
+		}		
+	}
+	if (flag == 0) {
+		printf("%d是质数\n", x);
+	}
+	else {
+		printf("\n%d不是质数\n", x);
+	}
+}
+int main() {
+	int num = 0;
+	while (1) {
+		scanf("%d", &num);
+		if (num > 0) {
+			zhishu(num);
+		}
+		else break;
+	}
+}
+#endif
+
