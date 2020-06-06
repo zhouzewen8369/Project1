@@ -54,19 +54,16 @@ int main() {
 
 #if 1
 int main() {
-	int a=70;
-	scanf("请输入你的成绩：%d", &a);
+	float a; 
+	scanf("%f", &a);
 	if (a >= 60) {
-		printf("及格");
+		printf("分数是 %4.1f \n",a);
+		printf("pass\n");
 		return 1;
 	}
-	else if ((a < 60) & (a > 0)) {
-		printf("不及格");
-		return 0;
-	}
 	else {
-		printf("无法识别");
-		return -1;
+		printf("no pass\n");
+		return 0;
 	}
 }
 #endif
