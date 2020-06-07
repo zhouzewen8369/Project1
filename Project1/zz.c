@@ -170,7 +170,7 @@ int main() {
 }
 #endif
 //判断是否为质数，for、if、while
-#if 1 
+#if 0
 void zhishu(int x) {
 	int flag = 0;
 	for (int i = 2; i < x; i++) { //i：2到x-1
@@ -183,14 +183,17 @@ void zhishu(int x) {
 	if (flag == 0) {
 		printf("%d是质数\n", x);
 	}
-	else {
+	else if(flag == 1) {
 		printf("\n%d不是质数\n", x);
 	}
 }
+
 int main() {
 	int num = 0;
 	while (1) {
-		scanf("%d", &num);
+		scanf("%d", &num); 
+		//程序运行时只允许准确地输入整数
+		//如果多输入了其他字符，程序会循环执行
 		if (num > 0) {
 			zhishu(num);
 		}
@@ -198,4 +201,92 @@ int main() {
 	}
 }
 #endif
+//输出100以内的所有质数
+#if 0
+int zhishu(int x) {
+	int flag = 0;
+	for (int i = 2; i < x/2; i++) { //i：2到x-1
+		//如果x能被1和其本身以外的数整除，则x不是质数
+		if (x % i == 0) {
+			flag = 1;
+			break;
+		}
+	}
+	return flag;
+}
+int main() {
+	for (int i = 1; i < 100; i++) {
+		if (!zhishu(i)) { printf("%d是质数\n", i); }
+	}
+}
+#endif
 
+//for循环，阶乘计算
+#if 0
+int jiecheng(int x) {
+	int y = 1;
+	for (int i = 1; i < x + 1; i++) {
+		y = y * i;
+	}
+	return y;
+}
+int main() {
+	int x;
+	scanf("%d", &x);
+	printf("%d", jiecheng(x));
+}
+#endif
+//递归，阶乘计算
+#if 0 
+int jiecheng(int x) {
+	int y = 1;
+	if ((x == 1) || (x == 0)) {
+		return y;
+	}	
+	else if (x > 1) {
+		y = x * jiecheng(x - 1);
+		return y;
+	}
+	else {
+		printf("请输入正整数\n");
+	}
+}
+int main() {
+	int x;
+	scanf("%d", &x);
+	printf("%d", jiecheng(x));
+}
+#endif
+
+//指针，交换两数，通过指针变量赋值，字符数组、整数数组
+#if 1
+#include <string.h>
+void swap(int* x, int* y) {
+	int temp;
+	temp = *x;
+	*x = *y;
+	*y = temp;
+}
+int main() {
+	int a = 3, b = 7, * d = &a;
+	char crr[] = { 'h','e','l','l','o' }, * p = crr, * q = &crr[5];
+	//交换两数
+	printf("原来的：%d, %d\n", a, b);
+	swap(&a, &b);
+	printf("交换后：%d, %d\n", a, b);
+
+	//通过指针变量赋值
+	*d = 5;
+	printf("%d, %d\n", a,b);
+	b = *d;
+	printf("%d, %d\n", a, b);
+
+	printf("原来的：%c, %c\n", *p, crr[0]);
+	crr[0] = 'H';
+	printf("大写的：%c, %c\n", *p, crr[0]);
+	for (; p < q; p++) {
+		printf("%c",*p);
+	}
+	printf("\n");
+}
+#endif
