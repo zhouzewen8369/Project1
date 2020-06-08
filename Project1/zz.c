@@ -222,7 +222,7 @@ int main() {
 	}
 }
 #endif
-//5 for循环，阶乘计算
+//5 for循环，阶乘计算打发打发
 #if 0
 int jiecheng(int x) {
 	int y = 1;
@@ -264,7 +264,7 @@ int main() {
 }
 #endif
 
-//6 指针，交换两数，通过指针变量赋值，字符数组、整数数组
+//6 指针，交换两数，通过指针变量赋值，字符数组、整数数组的发生发射点发
 #if 0
 #include <string.h>
 void swap(int* x, int* y) {
@@ -492,7 +492,87 @@ int main() {
 }
 #endif
 
-//
-#if 1
+//8 动态内存分配，<malloc.h>, malloc, (int*), realloc, free
+#if 0
+#include<malloc.h>
+int main() {
+	float b = (float)3 / 5; printf("%.2f\n", b);
+	//(float)3，将3强制转换为float类型
+	//类似的，(int*)强制 将malloc返回的void*(void指针类型) 转换成int*
+	int* p = (int*)malloc(3 * sizeof(int));
+	//malloc得到一个堆存储区,m-memory内存,alloc-allocate分配
+	*p = 10;
+	*(p + 1) = 20;
+	p[2] = 30;
+	//p[3] = 40; //非法内存访问
+	for (int i = 0; i < 3; i++) {
+		printf("%d\t", p[i]);
+	}
+	printf("\n");
+	
+	//realloc，即re-alloc 重新分配、再分配
+	//1.搞个新的大的盒子 
+	//2.把原小盒子里的放到新大盒子里 
+	//3.把原小盒子扔了
+	p = (int*)realloc(p, 5 * sizeof(int));
+	p[3] = 40; //不会报错了
+	for (int i = 0; i < 5; i++) {
+		printf("%d\t", p[i]);
+	}//最后一个没有赋值，会是随机的一个int
+	printf("\n");
 
+	free(p); //用完以后，释放内存
+}
+#endif
+//8 malloc-realloc，改进学生信息录入
+#if 1
+#include<malloc.h>
+#include<string.h>
+//定义结构体
+struct Stu {
+	char name[10];
+	int age;
+	double score;
+};
+//输入
+void Scanf(struct Stu* p) {
+	printf("依次输入姓名、年龄、分数\n");
+	scanf("%s %d %lf", p->name, &(p->age), &(p->score));
+	//注意！使用scanf时，逗号后面跟 地址或指针，"&"取地址符号不要忘！！
+}
+int main() {
+	int num; //预计录入人数，即分配的动态内存大小
+	int i = 1; //已录入人数
+	struct Stu* students = 0, * p = 0, * q = 0;
+	printf("输入预录入人数：\n");
+	scanf("%d", &num);
+	students = (struct Stu*)malloc(num * sizeof(struct Stu));
+	if (!students) {
+		printf("初始化分配动态内存失败。\n");
+		return 1;
+	}
+	p = students;
+	while (1) {
+		Scanf(p);
+		if (p->age < 0)
+			break; //跳出循环，结束录入
+		printf("已录入%d个学生信息\n还可以录入%d个\n", i, num - i);
+		p++; //p++放到前面
+		if (!(num - i)) {
+			printf("现存动态内存不足，已重新分配动态内存，将其容量翻倍。\n");
+			num *= 2;
+			students = (struct Stu*)realloc(students,num * sizeof(struct Stu));
+			if (!students) {
+				printf("重新分配动态内存失败。\n");
+				return 2;
+			}
+			p = students + i; //这里要注意！！students重新分配了，指针p也要重新“指”
+		}
+		i++; //i++放到后面
+	}
+	q = p; //q用于记录最后一个学生信息的指针
+	for (p = students; p < q; p++)   //把已录入的打印出来
+		printf("%3d岁的%5s的成绩是%5.2lf\n", p->age, p->name, p->score);
+	free(students);
+}
 #endif
