@@ -525,7 +525,7 @@ int main() {
 }
 #endif
 //8 malloc-realloc，改进学生信息录入
-#if 1
+#if 0
 #include<malloc.h>
 #include<string.h>
 //定义结构体
@@ -574,5 +574,153 @@ int main() {
 	for (p = students; p < q; p++)   //把已录入的打印出来
 		printf("%3d岁的%5s的成绩是%5.2lf\n", p->age, p->name, p->score);
 	free(students);
+}
+#endif
+
+//9 文件读写(文本模式),FILE*,fopen,fclose,读fscanf把文件里的东西搞到给定地址上, 写fprint给文件里打印东西
+#if 0
+int main() {
+	char name[30];
+	double score;
+	FILE* fp;
+	fp = fopen("zhouzwtest.txt", "w");
+	if (!fp) {
+		printf("failed"); return 1;
+	}
+	fprintf(fp,"zhou 600.60\n");
+	fprintf(fp, "%s %.2lf\n", "wang", 610.1); //写fprintf：给 1.fp里打印 2.%这种类型的 3.数据
+	fclose(fp);
+	fp = fopen("zhouzwtest.txt", "r");
+	fscanf(fp, "%s %lf", name, &score); //读fscanf：把 1.fp里的 2.%这种数据搞到 3.给定地址上
+	printf("%s %f\n", name, score);
+	fscanf(fp, "%s %lf", name, &score);
+	printf("%s %f\n", name, score);
+	fclose(fp);
+}
+
+#endif
+//9 学生信息拷贝，while(fscanf!=EOF)
+#if 0
+int main() {
+	//定义结构体
+	struct Stu {
+		char name[10];
+		int age;
+		float score;
+	};
+	struct Stu stu;
+	FILE* f1, * f2, * f3;
+
+	f1 = fopen("stu1.txt", "r");
+	f2 = fopen("stu2.txt", "w");
+	while (fscanf(f1, "%s %d %f", stu.name, &stu.age, &stu.score) != EOF) { //读
+		//EOF:end of file
+		fprintf(f2, "%s %d %f\n", stu.name, stu.age, stu.score); //写
+	}
+	fclose(f1);
+	fclose(f2); //全关了
+
+	f3 = fopen("stu2.txt", "r"); //读新的，检查是否成功写入
+	while (fscanf(f3, "%s %d %f", stu.name, &stu.age, &stu.score) != EOF) {
+		//EOF:end of file
+		printf("%s %.2f\n", stu.name, stu.score);
+	}
+	fclose(f3);
+	return 0;
+}
+#endif
+//9 逐个字符输入数据，记录并显示，getchar(),putc(ch,fp),getc(fp)
+#if 0
+int main() {
+	FILE* fp;
+	char ch;
+	//printf("请输入数据：");
+	//fp = fopen("getc_putc.txt", "w");
+	//while ((ch = getchar()) != EOF) {
+	//	putc(ch, fp); //put char to fp
+	//}
+	//fclose(fp);
+	fp = fopen("getc_putc.txt", "r");
+	while ((ch = getc(fp)) != EOF) { //get char from fp
+		printf("%c", ch); 
+	}
+	fclose(fp);
+}
+#endif
+//9 字符串，写入和读取，gets(str),fgets,fputs
+#if 0
+int main() {
+	FILE* fp;
+	char str[100];
+	printf("请输入数据：");
+	fp = fopen("gets_puts.txt", "w");
+	while ( gets(str) != NULL) {
+		fputs(str, fp); //put str to fp
+		putc('\n', fp); //字符char用'',所以是'\n'而不是"\n"
+		//fprintf(fp, "\n"); //这个也可以
+	}
+	fclose(fp);
+	fp = fopen("gets_puts.txt", "r");
+	while (fgets(str,100,fp) != NULL) { //get str from fp for 99times,最后一个是结束符
+		printf("%s", str);
+	}
+	fclose(fp);
+}
+#endif
+//9 文件读写二进制,fread,fwrite,"rb","wb","ab"
+#if 0
+#include<stdlib.h>
+int main() {
+	//定义结构体
+	struct Stu {
+		char name[30];
+		int age;
+		float score;
+	};
+	struct Stu stu;
+	FILE* fp;
+
+	fp = fopen("stu.bin", "wb");
+	while (scanf("%s%d%f", stu.name, &stu.age, &stu.score) != 0) { //这个!=0费了我老鼻子劲了
+	//while (scanf("%s%d%f", stu.name, &stu.age, &stu.score) != EOF) {
+	//EOF:end of file  这种处理要敲三次^Z才行。
+		fwrite(&stu, sizeof(struct Stu), 1, fp);
+	}
+	fclose(fp);
+	fp = fopen("stu.bin", "rb");
+	while (fread(&stu, sizeof(struct Stu), 1, fp) == 1) { 
+		printf("%s %d %.2f\n", stu.name, stu.age, stu.score);
+	}
+	fclose(fp);
+}
+#endif
+//9 fseek,ftell
+#if 1 
+#include<string.h>
+int main() {
+	struct Stu {
+		char name[20];
+		int age;
+		float score;
+	};
+	struct Stu s, s1;
+
+	//*s.name = "zhou"; //错误！
+	strcpy(s.name, "zhou"); //正确！
+	s.age = 24;
+	s.score = 89.6;
+
+	FILE* fp;
+	fp = fopen("seek_tell.bin", "wb+");
+	fwrite(&s, sizeof(struct Stu), 1, fp);
+	printf("文件的当前位置：%ld\n", ftell(fp));
+
+	fseek(fp, 0, SEEK_SET);
+	printf("文件的当前位置：%ld\n", ftell(fp));
+
+	fread(&s1, sizeof(struct Stu), 1, fp);
+	printf("文件的当前位置：%ld\n", ftell(fp));
+	printf("%s\t%d\t%.2f\n", s1.name, s1.age, s1.score);
+	fclose(fp);
 }
 #endif
